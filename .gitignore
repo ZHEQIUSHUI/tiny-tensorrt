@@ -3,3 +3,4 @@ lib/
 models/
 *.onnx
 .vscode/
+third_party/TensorRT-*

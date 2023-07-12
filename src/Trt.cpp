@@ -1,7 +1,7 @@
-#include "Trt.h"
+#include "../Trt.h"
 #include "utils.h"
 #include "spdlog/spdlog.h"
-#include "Int8Calibrator.h"
+// #include "Int8Calibrator.h"
 
 #include <string>
 #include <vector>
@@ -172,9 +172,9 @@ void Trt::SetInt8Calibrator(const std::string& calibratorType, const int batchSi
                             const std::string& dataPath, const std::string& calibrateCachePath) {
     assert(mBuilder != nullptr && mConfig !=nullptr && "Please set config before build engine");
     spdlog::info("set int8 inference mode");
-    nvinfer1::IInt8Calibrator* calibrator = GetInt8Calibrator(
-        calibratorType, batchSize, dataPath, calibrateCachePath);
-    mConfig->setInt8Calibrator(calibrator);
+    // nvinfer1::IInt8Calibrator* calibrator = GetInt8Calibrator(
+    //     calibratorType, batchSize, dataPath, calibrateCachePath);
+    // mConfig->setInt8Calibrator(calibrator);
 }
 
 // depricated at TRT 8.4

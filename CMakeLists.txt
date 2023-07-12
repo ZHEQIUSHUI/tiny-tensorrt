@@ -6,21 +6,32 @@ cmake -DGPU_ARCH=xx -DBUILD_PYTHON=ON/OFF -DBUILD_SAMPLE=ON/OFF -DTENSORRT_INCLU
 ")
 
 cmake_minimum_required(VERSION 3.0)
+# set cmake_install_prefix path
+if(NOT DEFINED CMAKE_INSTALL_PREFIX)
+    set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/install" CACHE PATH "Installation Directory")
+endif()
+message(STATUS "CMAKE_INSTALL_PREFIX = ${CMAKE_INSTALL_PREFIX}")
+
+# check if building type is not set
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build" FORCE)
+endif()
+
 project(tinytrt VERSION 1.1.0)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib)
-set(CMAKE_INSTALL_LIBDIR /usr/lib CACHE PATH "Install dir for shared libraries")
-set(CMAKE_INSTALL_INCLUDEDIR /usr/include CACHE PATH "Install dir for headers")
-set(CMAKE_INSTALL_LIBDIR /usr/lib CACHE PATH "Install dir for shared libraries")
-set(CMAKE_INSTALL_BINDIR /usr/bin CACHE PATH "Install dir for binary")
+# set(CMAKE_LIBRARY_OUTPUT_DIRECTORY lib)
+# set(CMAKE_INSTALL_LIBDIR /usr/lib CACHE PATH "Install dir for shared libraries")
+# set(CMAKE_INSTALL_INCLUDEDIR /usr/include CACHE PATH "Install dir for headers")
+# set(CMAKE_INSTALL_LIBDIR /usr/lib CACHE PATH "Install dir for shared libraries")
+# set(CMAKE_INSTALL_BINDIR /usr/bin CACHE PATH "Install dir for binary")
 
 # set(LIBRARY_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/lib CACHE PATH "")
 option(BUILD_PYTHON "compile python api" OFF)
 option(BUILD_SAMPLE "build samples" ON)
 
 set(GPU_ARCH "" CACHE STRING "GPU compute capability")
-set(TENSORRT_LIB_PATH "" CACHE STRING "absolute path to tensorrt libraries")
-set(TENSORRT_INCLUDE_PATH "" CACHE STRING "absolute path to tensorrt public header")
+set(TENSORRT_LIB_PATH "third_party/TensorRT/lib" CACHE STRING "absolute path to tensorrt libraries")
+set(TENSORRT_INCLUDE_PATH "third_party/TensorRT/include" CACHE STRING "absolute path to tensorrt public header")
 
 find_package(CUDA REQUIRED)
 find_package(ZLIB REQUIRED)
@@ -79,7 +90,7 @@ https://arnon.dk/matching-sm-architectures-arch-and-gencode-for-various-nvidia-c
 file(GLOB_RECURSE trt_source
      src/Trt.cpp
      src/cnpy.cpp
-     src/Int8Calibrator.cpp
+    #  src/Int8Calibrator.cpp
      plugin/*.cu
      plugin/*.cpp
      )
